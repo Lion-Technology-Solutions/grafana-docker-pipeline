@@ -8,6 +8,7 @@ pipeline {
 
     environment {
         registry = "757750585556.dkr.ecr.us-east-1.amazonaws.com/liontechclass20"
+        DOCKERHUB_CREDENTIALS=credentials('dockerhub-cred-raja')
     }
     stages {
         stage('Checkout') {
@@ -33,6 +34,13 @@ pipeline {
                     
                 }
             }
+        }
+
+            stage('Dockerhub-Login') {
+
+			steps {
+				sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+			}
+		}   
         }    
     }
-}
